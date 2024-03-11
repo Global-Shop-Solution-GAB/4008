@@ -1,0 +1,543 @@
+Program.Sub.ScreenSU.Start
+gui.SS_Form1..create
+gui.SS_Form1..caption("Inventory History Extended")
+gui.SS_Form1..size(11835,7080)
+gui.SS_Form1..minx(0)
+gui.SS_Form1..miny(0)
+gui.SS_Form1..position(0,0)
+gui.SS_Form1..event(resize,SS_Form1_resize)
+gui.SS_Form1..event(unload,ss_form1_unload)
+gui.SS_Form1..alwaysontop(True)
+gui.SS_Form1..fontname("Arial")
+gui.SS_Form1..fontsize(8)
+gui.SS_Form1..forecolor(0)
+gui.SS_Form1..fontstyle(,,,,)
+gui.SS_Form1..BackColor(-2147483633)
+gui.SS_Form1..controlbox(True)
+gui.SS_Form1..maxbutton(False)
+gui.SS_Form1..minbutton(False)
+gui.SS_Form1..mousepointer(0)
+gui.SS_Form1..moveable(True)
+gui.SS_Form1..sizeable(False)
+gui.SS_Form1..ShowInTaskBar(True)
+gui.SS_Form1..titlebar(True)
+gui.SS_Form1.lblStart.create(label,"Start",True,480,200,1,9640,290,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lblStart.defaultvalue("")
+gui.SS_Form1.lblStart.controlgroup(0)
+gui.SS_Form1.lbl_txtPartNo.create(label,"Part Number",True,1005,200,1,1195,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtPartNo.defaultvalue("")
+gui.SS_Form1.lbl_txtPartNo.controlgroup(0)
+gui.SS_Form1.txtPartNo.create(textbox,"",True,2640,330,0,1195,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtPartNo.defaultvalue("")
+gui.SS_Form1.txtPartNo.controlgroup(0)
+gui.SS_Form1.lbl_txtRev.create(label,"Rev",True,360,200,1,4220,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtRev.defaultvalue("")
+gui.SS_Form1.lbl_txtRev.controlgroup(0)
+gui.SS_Form1.txtRev.create(textbox,"",True,495,330,0,4200,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtRev.defaultvalue("")
+gui.SS_Form1.txtRev.controlgroup(0)
+gui.SS_Form1.lbl_txtLoc.create(label,"Loc",True,405,200,1,4935,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtLoc.defaultvalue("")
+gui.SS_Form1.lbl_txtLoc.controlgroup(0)
+gui.SS_Form1.txtLoc.create(textbox,"",True,420,330,0,4935,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtLoc.defaultvalue("")
+gui.SS_Form1.txtLoc.controlgroup(0)
+gui.SS_Form1.lbl_txtPartDesc.create(label,"Part Description",True,1800,200,1,5755,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtPartDesc.defaultvalue("")
+gui.SS_Form1.lbl_txtPartDesc.controlgroup(0)
+gui.SS_Form1.txtPartDesc.create(textbox,"",True,3315,330,0,5755,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtPartDesc.defaultvalue("")
+gui.SS_Form1.txtPartDesc.controlgroup(0)
+gui.SS_Form1.lbl_txtMonth.create(label,"Month",True,600,200,1,9335,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtMonth.defaultvalue("")
+gui.SS_Form1.lbl_txtMonth.controlgroup(0)
+gui.SS_Form1.txtMonth.create(textbox,"",True,420,330,0,9335,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtMonth.defaultvalue("")
+gui.SS_Form1.txtMonth.controlgroup(0)
+gui.SS_Form1.lbl_txtYear.create(label,"Year",True,435,200,1,9990,505,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txtYear.defaultvalue("")
+gui.SS_Form1.lbl_txtYear.controlgroup(0)
+gui.SS_Form1.txtYear.create(textbox,"",True,420,330,0,9990,705,False,0,Arial,8,16777215,1)
+gui.SS_Form1.txtYear.defaultvalue("")
+gui.SS_Form1.txtYear.controlgroup(0)
+gui.SS_Form1.gsfgAudit.create(gsflexgrid)
+gui.SS_Form1.gsfgAudit.FixedRows(0)
+gui.SS_Form1.gsfgAudit.FixedCols(0)
+gui.SS_Form1.gsfgAudit.visible(True)
+gui.SS_Form1.gsfgAudit.size(11175,4605)
+gui.SS_Form1.gsfgAudit.zorder(0)
+gui.SS_Form1.gsfgAudit.position(200,1265)
+gui.SS_Form1.gsfgAudit.enabled(True)
+gui.SS_Form1.cmdDone.create(button)
+gui.SS_Form1.cmdDone.caption("Done")
+gui.SS_Form1.cmdDone.visible(True)
+gui.SS_Form1.cmdDone.size(855,375)
+gui.SS_Form1.cmdDone.zorder(0)
+gui.SS_Form1.cmdDone.position(200,6000)
+gui.SS_Form1.cmdDone.enabled(True)
+gui.SS_Form1.cmdDone.fontname("Arial")
+gui.SS_Form1.cmdDone.fontsize(8)
+gui.SS_Form1.cmdDone.event(click,cmddone_click)
+gui.SS_Form1.cmdDone.defaultvalue("")
+gui.SS_Form1.cmdDone.controlgroup(0)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Variable.UDT.uInvHis.Define("sTime",String,Inv_Hist_Time)
+Variable.UDT.uInvHis.Define("iOldHand",Float,Old_OnHand)
+Variable.UDT.uInvHis.Define("iNewHand",Float,New_OnHand)
+Variable.UDT.uInvHis.Define("iOldCost",Float,Old_Inv_Cost)
+Variable.UDT.uInvHis.Define("iNewCost",Float,New_Inv_Cost)
+Variable.UDT.uInvHis.Define("iTranCost",Float,Cost)
+Variable.UDT.uInvHis.Define("sRef2",String,Refer_2)
+Variable.UDT.uInvHis.Define("sTranCode",String,Code_Transaction)
+Variable.UDT.uInvHis.Define("sRef1",String,Transaction_Desc)
+Variable.UDT.uInvHis.Define("sPart",String,Part)
+Variable.UDT.uInvHis.Define("sLocation",String,Location)
+Variable.UDT.uInvHis.Define("dDate",String,Date_History)
+Variable.UDT.uInvHis.Define("iQtyChange",Float,Quantity)
+Variable.UDT.uInvHis.Define("sUser",String,UserID)
+Variable.UDT.uInvHis.Define("dDateAction",String,Date_Action)
+Variable.uGlobal.uInvHis.Declare("uInvHis")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'This is a custom Script created for Hawkeye Industries by SKT
+'This script will duplicate the information on the Inventory History Screen for a part.
+'The only difference is that this script will pull in custom comments that were created with
+'GCG_HAW_P16Comments.gas.  The comments created with that Script will be longer then
+'what the core program allows.
+'Created on 8/26/2014
+
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sPartCombo.Declare(String)
+V.Local.sTime.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.sAcct.Declare(String)
+V.Local.iCount.Declare(Long)
+V.Local.sErrorMessage.Declare(String)
+V.Local.bIsDate.Declare(Boolean)
+
+'check to see if the Populate Hook is being used.
+F.Intrinsic.Control.If(V.Caller.Hook,=,13480)
+	'Make sure a part has been selected.
+	F.Intrinsic.Control.If(V.Passed.000005,!=,"")
+		
+		F.ODBC.Connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+		'Get the part number and rev combined.
+		F.Intrinsic.String.GSSPartString(V.Passed.000005.Trim,V.Passed.000179.Trim,V.Local.sPartCombo)
+		'Get the Month and Year with the 1st day
+		F.Intrinsic.String.Concat(V.Passed.000023,V.Passed.000022,"01",V.Local.sAcct)
+		'Query Inventory History to get the information needed to populate the grid.
+		F.Intrinsic.String.Concat("Select Inv_Hist_Time, Old_OnHand, New_OnHand, Old_Inv_Cost, New_Inv_Cost, Cost, Date_Action, Refer_2, Code_Transaction, Transaction_Desc, Part, Location, Date_History, Quantity, UserID from Inventory_Hist where Part = '",V.Local.sPartCombo.Trim,"' and Date_History > '",V.Local.sAcct,"' Order by Date_History Desc",V.Local.sSql)
+		F.ODBC.Connection!conx.OpenLocalRecordsetRO("rstIA",V.Local.sSql)
+		'Make sure there are records
+		F.Intrinsic.Control.If(V.ODBC.conx!rstIA.EOF,=,False)
+			'Load the UDT with the Records
+			F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstIA","v.uGlobal.uInvHis",False)
+		F.Intrinsic.Control.Else
+			'No information found. Notify and exit
+			F.Intrinsic.String.Build("No information found for part {0} in history with a date greater than {1}",V.Local.sPartCombo,V.Local.sAcct,V.Local.sErrorMessage)
+			F.Intrinsic.UI.Msgbox(V.Local.sErrorMessage)
+			F.ODBC.conx!rstIA.Close
+			F.Intrinsic.Control.End
+		F.Intrinsic.Control.EndIf
+		
+		F.ODBC.conx!rstIA.Close
+		
+		'Loop through all the records
+		F.Intrinsic.Control.For(V.Local.iCount,0,V.uGlobal.uInvHis.UBound,1)
+			F.Intrinsic.Date.IsDate(V.uGlobal.uInvHis(v.Local.iCount)!dDate,V.Local.bIsDate)
+			'convert the Date
+			F.Intrinsic.Control.If(V.Local.bIsDate)
+				F.Intrinsic.Date.ConvertDString(V.uGlobal.uInvHis(v.Local.iCount)!dDate,"YYMMDD",V.uGlobal.uInvHis(v.Local.iCount)!dDate)
+			F.Intrinsic.Control.Else
+				F.Intrinsic.Control.Next(v.Local.iCount)
+			F.Intrinsic.Control.EndIf
+			
+			F.Intrinsic.Date.IsDate(V.uGlobal.uInvHis(V.Local.iCount)!dDateAction,V.Local.bIsDate)
+			
+			F.Intrinsic.Control.If(V.Local.bIsDate)
+				F.Intrinsic.Date.ConvertDString(V.uGlobal.uInvHis(v.Local.iCount)!dDateAction,"MMDDYY",V.uGlobal.uInvHis(v.Local.iCount)!dDateAction)
+			F.Intrinsic.Control.Else
+				F.Intrinsic.Control.Next(V.Local.iCount)
+			F.Intrinsic.Control.EndIf
+			
+			'Save the time
+			V.Local.sTime.Set(V.uGlobal.uInvHis(v.Local.iCount)!sTime)
+			'Query Custom table to get the P16 comments the user entered from the GCG_HAW_P16Comments.gas
+			F.Intrinsic.String.Concat("Select Comment from GCG_4008_P16Comments where Part_Num = '",V.Passed.000005.Trim,"' and Rev = '",V.Passed.000179.trim,"' and Locn = '",V.uGlobal.uInvHis(v.Local.iCount)!sLocation,"' and Date = '",V.uGlobal.uInvHis(v.Local.iCount)!dDate,"' and Time = '",V.Local.sTime,"'",V.Local.sSql)
+			F.ODBC.Connection!conx.OpenLocalRecordsetRO("rstC",V.Local.sSql)
+			
+			'Check to see if there is a record
+			F.Intrinsic.Control.If(V.ODBC.conx!rstC.EOF,=,False)
+				'If there is save the comment
+				V.uGlobal.uInvHis(v.Local.iCount)!sRef2.Set(V.ODBC.conx!rstC.FieldValTrim!Comment)
+			F.Intrinsic.Control.EndIf
+			F.ODBC.conx!rstC.Close
+		F.Intrinsic.Control.Next(V.Local.iCount)
+		
+		'Call the flexgrid buildstyle
+		F.Intrinsic.Control.CallSub(Buildstyle)
+		'Save teh Month, Year, Part Number, Location, Part Description, Rev, and Load the flexgrid with the information from the UDT.
+		Gui.SS_Form1.txtMonth.Text(V.Passed.000022)
+		Gui.SS_Form1.txtYear.Text(V.Passed.000023)
+		Gui.SS_Form1.txtPartNo.Text(V.Passed.000005)
+		Gui.SS_Form1.txtLoc.Text(V.Passed.000066)
+		Gui.SS_Form1.txtPartDesc.Text(V.Passed.000002)
+		Gui.SS_Form1.txtRev.Text(V.Passed.000179)
+		Gui.SS_Form1.gsfgAudit.LoadFromUDT("v.uGlobal.uInvHis","dDate::0*!*sTranCode::1*!*sRef1::2*!*sRef2::3*!*sUser::4*!*iOldHand::5*!*iQtyChange::6*!*iNewHand::7*!*iOldCost::8*!*iTranCost::9*!*iNewCost::10*!*dDateAction::11",2)
+		'Show the Custom form.
+		Gui.SS_Form1..Show
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Lookup.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+program.sub.ss_form1_resize.start
+F.Intrinsic.Control.SetErrorHandler("ss_form1_resize_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.local.width.declare(Long)
+V.local.height.declare(Long)
+V.local.x.declare(Long)
+V.local.Y.declare(Long)
+Function.Intrinsic.Control.If(Variable.Screen.SS_Form1.Width,<,11835)
+	Gui.SS_Form1..Size(11835,Variable.Screen.SS_Form1.Height)
+Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.If(Variable.Screen.SS_Form1.height,<,7080)
+	Gui.SS_Form1..Size(Variable.Screen.SS_Form1.Width,7080)
+Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.041,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.041,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.815,Variable.Local.X)
+Gui.SS_Form1.lblStart.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lblStart.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.085,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.101,Variable.Local.X)
+Gui.SS_Form1.lbl_txtPartNo.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtPartNo.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.223,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.101,Variable.Local.X)
+Gui.SS_Form1.txtPartNo.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtPartNo.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.03,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.357,Variable.Local.X)
+Gui.SS_Form1.lbl_txtRev.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtRev.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.042,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.355,Variable.Local.X)
+Gui.SS_Form1.txtRev.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtRev.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.034,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.417,Variable.Local.X)
+Gui.SS_Form1.lbl_txtLoc.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtLoc.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.035,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.417,Variable.Local.X)
+Gui.SS_Form1.txtLoc.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtLoc.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.152,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.486,Variable.Local.X)
+Gui.SS_Form1.lbl_txtPartDesc.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtPartDesc.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.28,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.486,Variable.Local.X)
+Gui.SS_Form1.txtPartDesc.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtPartDesc.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.051,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.789,Variable.Local.X)
+Gui.SS_Form1.lbl_txtMonth.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtMonth.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.035,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.789,Variable.Local.X)
+Gui.SS_Form1.txtMonth.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtMonth.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.028,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.071,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.037,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.844,Variable.Local.X)
+Gui.SS_Form1.lbl_txtYear.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.lbl_txtYear.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.047,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.1,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.035,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.844,Variable.Local.X)
+Gui.SS_Form1.txtYear.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.txtYear.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.65,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.179,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.944,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.017,Variable.Local.X)
+Gui.SS_Form1.gsfgAudit.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.gsfgAudit.Size(V.Local.width,V.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.053,Variable.Local.height)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Height,0.847,Variable.Local.Y)
+Function.Intrinsic.Math.mult(Variable.Screen.SS_Form1.Width,0.072,Variable.Local.width)
+Function.Intrinsic.Math.Mult(Variable.Screen.SS_Form1.Width,0.017,Variable.Local.X)
+Gui.SS_Form1.cmdDone.Position(V.Local.x,V.Local.y)
+Gui.SS_Form1.cmdDone.Size(V.Local.width,V.Local.height)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ss_form1_resize_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_HAW_P16Lookup.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.ss_form1_resize.end
+
+program.sub.ss_form1_unload.start
+F.Intrinsic.Control.SetErrorHandler("ss_form1_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'Close Connection
+F.ODBC.Connection!conx.Close
+'End program.
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ss_form1_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_HAW_P16Lookup.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.ss_form1_unload.end
+
+program.sub.cmddone_click.start
+F.Intrinsic.Control.SetErrorHandler("cmddone_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+'Call unload Sub
+F.Intrinsic.Control.CallSub(Ss_form1_unload)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmddone_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Lookup.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmddone_click.end
+
+Program.Sub.BuildStyle.Start
+'Build Style for the FlexGrid
+F.Intrinsic.Control.SetErrorHandler("BuildStyle_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+Gui.SS_Form1.gsfgAudit.Cols(12)
+Gui.SS_Form1.gsfgAudit.Rows(2)
+Gui.SS_Form1.gsfgAudit.FixedRows(1)
+
+Gui.SS_Form1.gsfgAudit.SetColumnPercentages(".10:.10:.20:.30:.05:.10:.10:.15:.10:.10:.10:.15")
+
+'Buildstyle
+'Column 0
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,0,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,0,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,0,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,0,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,0,"Format","Alignment",2)
+
+'Column 1
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,1,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,1,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,1,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,1,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,1,"Format","Alignment",2)
+
+'Column 2
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,2,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,2,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,2,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,2,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,2,"Format","Alignment",2)
+
+'Column 3
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,3,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,3,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,3,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,3,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,3,"Format","Alignment",2)
+
+'Column 4
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,4,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,4,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,4,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,4,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,4,"Format","Alignment",2)
+
+'Column 5
+'Style1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,5,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,5,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,5,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,5,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,5,"Format","Alignment",6)
+
+'Column 6
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,6,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,6,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,6,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,6,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,6,"Format","Alignment",6)
+
+'Column 7
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,7,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,7,"Format","Alignment",2)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,7,"Fontstyle","Bold",True)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,7,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,7,"Format","Alignment",6)
+
+'Column 8
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,8,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,8,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,8,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,8,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,8,"Format","Alignment",6)
+
+'Column 9
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,9,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,9,"Format","Alignment",4)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,9,"Fontstyle","Bold",True)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,9,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,9,"Format","Alignment",6)
+
+'Column 10
+'Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,10,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,10,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,10,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,10,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,10,"Format","Alignment",6)
+
+''Column 11
+''Style 1
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,11,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,11,"Fontstyle","Bold",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(1,11,"Format","Alignment",4)
+
+'Style 2
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,11,"Type","Locked",True)
+Gui.SS_Form1.gsfgAudit.BuildStyle(2,11,"Format","Alignment",2)
+
+'Applies style 1 to the First Row
+Gui.SS_Form1.gsfgAudit.ApplyStyle(0,1)
+'Applies style 2 to the Second Row
+Gui.SS_Form1.gsfgAudit.ApplyStyle(1,2)
+
+'Sets the Text for the Header Row of the FlexGrid
+Gui.SS_Form1.gsfgAudit.TextMatrix(0,0,"Date")
+Gui.SS_Form1.gsfgAudit.TextMatrix(1,0,"Trans Code")
+Gui.SS_Form1.gsfgAudit.TextMatrix(2,0,"Reference")
+Gui.SS_Form1.gsfgAudit.TextMatrix(3,0,"Reference 2")
+Gui.SS_Form1.gsfgAudit.TextMatrix(4,0,"User")
+Gui.SS_Form1.gsfgAudit.TextMatrix(5,0,"Old on Hand")
+Gui.SS_Form1.gsfgAudit.TextMatrix(6,0,"Qty Change")
+Gui.SS_Form1.gsfgAudit.TextMatrix(7,0,"New on Hand")
+Gui.SS_Form1.gsfgAudit.TextMatrix(8,0,"Old Cost")
+Gui.SS_Form1.gsfgAudit.TextMatrix(9,0,"Trans Cost")
+Gui.SS_Form1.gsfgAudit.TextMatrix(10,0," New Cost")
+Gui.SS_Form1.gsfgAudit.TextMatrix(11,0,"Date Action")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("BuildStyle_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Lookup.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.BuildStyle.End
+
+Program.Sub.Comments.Start
+${$0$}$GCG_4008_HAW_P16Lookup$}$SKT$}$5/11/2016
+${$1$}$$}$$}$0$}$13480$}$INVS870-POPULATE-HOOK$}$5/11/2016 1:05:10 PM$}$(Program: INV870GI; Screen: INVS870)
+
+Program.Sub.Comments.End
+
