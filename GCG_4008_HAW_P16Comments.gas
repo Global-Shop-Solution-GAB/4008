@@ -1,0 +1,200 @@
+Program.Sub.ScreenSU.Start
+gui.Form1..create
+gui.Form1..caption("Physical Inventory Comments")
+gui.Form1..size(3615,3645)
+gui.Form1..minx(0)
+gui.Form1..miny(0)
+gui.Form1..position(0,0)
+gui.Form1..event(unload,form1_unload)
+gui.Form1..alwaysontop(False)
+gui.Form1..fontname("Arial")
+gui.Form1..fontsize(8)
+gui.Form1..forecolor(0)
+gui.Form1..fontstyle(,,,,)
+gui.Form1..BackColor(-2147483633)
+gui.Form1..controlbox(True)
+gui.Form1..maxbutton(True)
+gui.Form1..minbutton(True)
+gui.Form1..mousepointer(0)
+gui.Form1..moveable(True)
+gui.Form1..sizeable(True)
+gui.Form1..ShowInTaskBar(True)
+gui.Form1..titlebar(True)
+gui.Form1.lblPart.create(label,"Part Number",True,990,255,1,200,125,True,0,Arial,8,-2147483633,0)
+gui.Form1.lblPart.defaultvalue("")
+gui.Form1.lblPart.controlgroup(0)
+gui.Form1.txtPart.create(textbox,"",True,1215,300,0,200,400,True,0,Arial,8,-2147483643,1)
+gui.Form1.txtPart.defaultvalue("")
+gui.Form1.txtPart.controlgroup(0)
+gui.Form1.lblDate.create(label,"Change Date",True,1935,255,1,1815,125,True,0,Arial,8,-2147483633,0)
+gui.Form1.lblDate.defaultvalue("")
+gui.Form1.lblDate.controlgroup(0)
+gui.Form1.txtDate.create(textbox,"",True,1215,300,0,1815,400,True,0,Arial,8,-2147483643,1)
+gui.Form1.txtDate.defaultvalue("")
+gui.Form1.txtDate.controlgroup(0)
+gui.Form1.lblComments.create(label,"Comments",True,1935,255,1,200,1000,True,0,Arial,8,-2147483633,0)
+gui.Form1.lblComments.defaultvalue("")
+gui.Form1.lblComments.controlgroup(0)
+gui.Form1.mltxtComments.create(textboxm)
+gui.Form1.mltxtComments.text("")
+gui.Form1.mltxtComments.visible(True)
+gui.Form1.mltxtComments.size(2970,1170)
+gui.Form1.mltxtComments.zorder(0)
+gui.Form1.mltxtComments.position(200,1300)
+gui.Form1.mltxtComments.enabled(True)
+gui.Form1.mltxtComments.alignment(0)
+gui.Form1.mltxtComments.fontname("Arial")
+gui.Form1.mltxtComments.fontsize(8)
+gui.Form1.mltxtComments.maxLength(50)
+gui.Form1.mltxtComments.BackColor(-2147483643)
+gui.Form1.mltxtComments.defaultvalue("")
+gui.Form1.mltxtComments.controlgroup(0)
+gui.Form1.cmdOk.create(button)
+gui.Form1.cmdOk.caption("OK")
+gui.Form1.cmdOk.visible(True)
+gui.Form1.cmdOk.size(855,375)
+gui.Form1.cmdOk.zorder(0)
+gui.Form1.cmdOk.position(200,2600)
+gui.Form1.cmdOk.enabled(True)
+gui.Form1.cmdOk.fontname("Arial")
+gui.Form1.cmdOk.fontsize(8)
+gui.Form1.cmdOk.event(click,cmdok_click)
+gui.Form1.cmdOk.defaultvalue("")
+gui.Form1.cmdOk.controlgroup(0)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'This is a Custom Script created for Hawkeye Industries by SKT
+'This script will allow the user to enter in longer comments for the inventory Audits,
+'The longer comments will be saved to a custom table.
+'Created on 8/26/2014
+
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sPart.Declare(String)
+V.Local.sDate.Declare(String)
+V.Local.dDate.Declare(String)
+V.Local.sRet.Declare(String)
+'Check to see if the Post Save Hook is being used
+F.Intrinsic.Control.If(V.Caller.Hook,=,26714)
+	F.ODBC.Connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+	'Make sure there is a part selected
+	F.Intrinsic.Control.If(V.Passed.009000,!=,"")
+		'Get the Part Number
+		F.Intrinsic.String.Split(V.Passed.009000.Trim,"",V.Local.sPart)
+		'Get the Date
+		F.Intrinsic.String.Split(V.Passed.009002.Trim,"",V.Local.sDate)
+		F.Intrinsic.String.LimitSplit(V.Local.sDate(2),2,V.Local.sRet)
+		'Format the date
+		F.Intrinsic.Date.DateSerial(V.Local.sRet(0),V.Local.sRet(1),V.Local.sRet(2),V.Local.dDate)
+		'Show the Part and date on the Screen and disable the textboxes so the user can not edit them.
+		Gui.Form1.txtPart.Text(V.Local.sPart(2))
+		Gui.Form1.txtPart.Enabled(False)
+		Gui.Form1.txtDate.Text(V.Local.dDate)
+		Gui.Form1.txtDate.Enabled(False)
+		'Show the Screen
+		Gui.Form1..Show
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Comments.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+program.sub.form1_unload.start
+F.Intrinsic.Control.SetErrorHandler("form1_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+'Close Connection to database
+F.ODBC.Connection!conx.Close
+'End program
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("form1_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Comments.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.form1_unload.end
+
+program.sub.cmdok_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdok_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.sPart.Declare(String)
+V.Local.sRev.Declare(String)
+V.Local.sTime.Declare(String)
+V.Local.sLocn.Declare(String)
+V.Local.sComments.Declare(String)
+V.Local.dDate.Declare(Date)
+'Open connection to the record Set
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rst","GCG_4008_P16Comments")
+'Get the Part Number
+F.Intrinsic.String.Left(V.Screen.Form1!txtPart.Text,17,V.Local.sPart)
+'Get the rev
+F.Intrinsic.String.Mid(V.Screen.Form1!txtPart.Text,18,3,V.Local.sRev)
+'F.Intrinsic.String.Right(V.Screen.Form1!txtPart.Text,3,V.Local.sRev)
+'Get the Date
+V.Local.dDate.Set(V.Screen.Form1!txtDate.Text)
+'Get the Location and the Time
+F.Intrinsic.String.Split(V.Passed.009001.Trim,"",V.Local.sLocn)
+F.Intrinsic.String.Split(V.Passed.009003.Trim,"",V.Local.sTime)
+'Save the user entered comments
+V.Local.sComments.Set(V.Screen.Form1!mltxtComments.Text)
+'Create a new record
+F.ODBC.conx!rst.AddNew
+'Save the Part Number, Rev, Location, Time, and the User entered comment
+F.ODBC.conx!rst.Set!Part_Num(V.Local.sPart)
+F.ODBC.conx!rst.Set!Rev(V.Local.sRev)
+F.ODBC.conx!rst.Set!Locn(V.Local.sLocn(2))
+F.ODBC.conx!rst.Set!Time(V.Local.sTime(2))
+F.ODBC.conx!rst.Set!Comment(V.Local.sComments)
+'Update the record Set
+F.ODBC.conx!rst.Update
+'Close Connection to the record set
+F.ODBC.conx!rst.Close
+
+F.Intrinsic.Control.CallSub(Form1_unload)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdok_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4008_HAW_P16Comments.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmdok_click.end
+
+Program.Sub.Comments.Start
+${$0$}$GCG_HAW_P16Comments$}$SKT$}$8/11/2014
+${$1$}$$}$$}$0$}$26714$}$INS516B-POST-SAVE-HOOK$}$5/11/2016 1:02:28 PM$}$(Program: INV516GI; Screen: INS516B)
+
+Program.Sub.Comments.End
+
